@@ -1,28 +1,24 @@
 private double fractionLength = .8; 
-private int smallestBranch = 10; 
-private double branchAngle = .2;  
+private int smallestBranch = 5; 
+private double branchAngle = .4;  
+int[] colors = {#7293A0,#45B69C,#21D19F,#A0A4B8,#D8DDEF};
 public void setup() 
 {   
 	size(640,480);    
-	noLoop(); 
-	
-} 
-public void draw() 
-{   
 	background(0);   
-	stroke(0,255,0);   
-	line(320,480,320,380);  
-	drawBranches(320, 380, 50, branchAngle); 
-	//drawBranches(??,??,??,??);  //will add later 
 } 
+public void draw() {} 
+public void mouseClicked(){
+	drawBranches(mouseX, 480, 50*Math.random() + 50, 0); 
+}
 public void drawBranches(int x,int y, double branchLength, double angle) 
 {   
 	if(branchLength < smallestBranch){
 		return;
 	}else{
-		line(x,y,(float)(x + branchLength*Math.cos(angle)), (float)(y + branchLength*Math.sin(angle)));
-		line(x,y,(float)(x - branchLength*Math.cos(angle)), (float)(y + branchLength*Math.sin(angle)));
-		drawBranches((int)(x + branchLength*Math.cos(angle)), (int)(y + branchLength*Math.sin(angle)),branchLength/2, 2*angle);
-		drawBranches((int)(x - branchLength*Math.cos(angle)), (int)(y + branchLength*Math.sin(angle)),branchLength/2, 2*angle);
+		stroke(colors[(int)branchLength%5]);
+		line(x,y,(float)(x + branchLength*Math.sin(angle)), (float)(y - branchLength*Math.cos(angle)));
+		drawBranches((int)(x + branchLength*Math.sin(angle)), (int)(y - branchLength*Math.cos(angle)),branchLength*fractionLength, angle + branchAngle);
+		drawBranches((int)(x + branchLength*Math.sin(angle)), (int)(y - branchLength*Math.cos(angle)),branchLength*fractionLength, angle - branchAngle);
 	}
 } 
